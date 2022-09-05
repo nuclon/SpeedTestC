@@ -66,11 +66,13 @@ static void *__uploadThread(void *arg)
             }
 
             totalTransfered -= size;
+            printf("...transferred: %d, left: %d\n", size, totalTransfered)
         }
         threadConfig->transferedBytes += totalToBeTransfered;
         /* Cleanup */
         printf("...cleanup http\n");
         httpClose(sockId);
+        printf("...done cleanup http\n");
     }
     threadConfig->elapsedSecs = getElapsedTime(tval_start);
 
@@ -108,6 +110,7 @@ void testUpload(const char *url)
     for (i = 0; i < numOfThreads; i++)
     {
         pthread_join(param[i].tid, NULL);
+        printf("...joined a thread\n");
         if (param[i].transferedBytes)
         {
             /* There's no reason that we transfered nothing except error occured */
