@@ -66,7 +66,7 @@ static void *__uploadThread(void *arg)
             }
 
             totalTransfered -= size;
-            printf("...transferred: %d, left: %d\n", size, totalTransfered)
+            printf("...transferred: %d, left: %d\n", size, totalTransfered);
         }
         threadConfig->transferedBytes += totalToBeTransfered;
         /* Cleanup */
