@@ -267,7 +267,9 @@ int main(int argc, char **argv)
         printf("Latency: %ld %s\n", getLatency(latencyUrl), LATENCY_UNITS);
     }
 
+    printf("Testing download...\n");
     testDownload(downloadUrl);
+    printf("Testing upload...\n");
     testUpload(uploadUrl);
 
     freeMem();

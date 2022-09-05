@@ -32,6 +32,7 @@ static void *__uploadThread(void *arg)
     sock_t sockId;
 
     /* Build the random buffer */
+    printf("...build the random buffer...\n");
     srand(time(NULL));
     for(i=0; i < BUFFER_SIZE; i++)
     {
