@@ -40,6 +40,7 @@ static void *__uploadThread(void *arg)
     }
 
     gettimeofday(&tval_start, NULL);
+    printf("...starting tests\n");
     for (i = 0; i < threadConfig->testCount; i++)
     {
         __appendTimestamp(threadConfig->url, uploadUrl, sizeof(uploadUrl));
@@ -68,6 +69,7 @@ static void *__uploadThread(void *arg)
         }
         threadConfig->transferedBytes += totalToBeTransfered;
         /* Cleanup */
+        printf("...cleanup http\n");
         httpClose(sockId);
     }
     threadConfig->elapsedSecs = getElapsedTime(tval_start);
@@ -79,6 +81,7 @@ void testUpload(const char *url)
 {
     size_t numOfThreads = speedTestConfig->uploadThreadConfig.threadsCount;
     THREADARGS_T *param = (THREADARGS_T *) calloc(numOfThreads, sizeof(THREADARGS_T));
+
     int i;
     for (i = 0; i < numOfThreads; i++)
     {
@@ -101,6 +104,7 @@ void testUpload(const char *url)
     float speed = 0;
 
     /* Wait for all threads */
+    printf("...wait for threads\n");
     for (i = 0; i < numOfThreads; i++)
     {
         pthread_join(param[i].tid, NULL);
@@ -111,7 +115,9 @@ void testUpload(const char *url)
             speed += (param[i].transferedBytes / param[i].elapsedSecs) / 1024;
         }
         /* Cleanup */
+        printf("...cleanup url\n");
         free(param[i].url);
+        printf("...done with thread\n");
     }
     free(param);
     printf("Bytes %lu uploaded with a speed %.2f kB/s (%.2f Mbit/s)\n",
