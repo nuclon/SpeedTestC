@@ -146,6 +146,8 @@ sock_t httpGet(char* pAddress, int pPort, char* pRequest, int ssl)
 
 #ifdef OPENSSL
     sockId = bioWrap(s, ssl, 1);
+    if (sockId == NULL)
+        return 0;
     BIO_write(sockId, buffer, strlen(buffer));
 #else
     sockId = s;
