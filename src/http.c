@@ -71,9 +71,11 @@ sock_t httpPut(char* pAddress, int pPort, char* pRequest, unsigned long contentS
     struct sockaddr_in addr;
     struct hostent*  hostEntry;
 
+    printf("...httpPut: cp1\n");
     if ((sockId = (int)socket(AF_INET, SOCK_STREAM, IPPROTO_TCP)) == 0)
         return 0;
 
+    printf("...httpPut: cp2\n");
     if ((hostEntry = gethostbyname(pAddress)) == NULL)
         return 0;
 
@@ -83,6 +85,7 @@ sock_t httpPut(char* pAddress, int pPort, char* pRequest, unsigned long contentS
     if (connect(sockId, (struct sockaddr*)&addr,
         sizeof(struct sockaddr_in)) == -1)
             return 0;
+    printf("...httpPut: cp3\n");
 
     /* TODO: Content-Length isn't set up, this is some kind of "hack".
      I cannot understand, but some servers closes up connection too early
@@ -95,11 +98,11 @@ sock_t httpPut(char* pAddress, int pPort, char* pRequest, unsigned long contentS
             "Connection: keep-alive\r\n"
             "Content-Length: %lu\r\n"
             "\r\n", pRequest, pAddress, USER_AGENT, 100*contentSize);
-
+    printf("...httpPut: cp4\n");
 #ifdef OPENSSL
     sock_t sock = bioWrap(sockId, ssl, 1);
     BIO_write(sock, buffer, strlen(buffer));
-
+    printf("...httpPut: cp5\n");
     return sock;
 #else
     send(sockId, buffer, strlen(buffer), 0);

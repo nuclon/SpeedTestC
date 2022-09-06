@@ -86,7 +86,7 @@ static void *__uploadThread(void *arg)
 
 void testUpload(const char *url)
 {
-    size_t numOfThreads = 1; // speedTestConfig->uploadThreadConfig.threadsCount;
+    size_t numOfThreads = 1; speedTestConfig->uploadThreadConfig.threadsCount;
     THREADARGS_T *param = (THREADARGS_T *) calloc(numOfThreads, sizeof(THREADARGS_T));
 
     int i;
