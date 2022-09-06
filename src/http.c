@@ -109,8 +109,9 @@ sock_t httpPut(char* pAddress, int pPort, char* pRequest, unsigned long contentS
         printf("[%d]...httpPut: ssl failed\n", tid);
         return 0;
     }
+    printf("[%d]...httpPut: cp6, sock: %d\n", tid, sock);
     BIO_write(sock, buffer, strlen(buffer));
-    printf("[%d]...httpPut: cp6\n", tid);
+    printf("[%d]...httpPut: cp7\n", tid);
     return sock;
 #else
     send(sockId, buffer, strlen(buffer), 0);
