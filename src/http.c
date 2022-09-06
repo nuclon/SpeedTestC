@@ -72,8 +72,7 @@ sock_t httpPut(char* pAddress, int pPort, char* pRequest, unsigned long contentS
     struct sockaddr_in addr;
     struct hostent*  hostEntry;
 
-    pthread_id_np_t   tid;
-    tid = pthread_getthreadid_np();
+    pthread_t tid = pthread_self();
 
     printf("[%d]...httpPut: cp1\n", tid);
     if ((sockId = (int)socket(AF_INET, SOCK_STREAM, IPPROTO_TCP)) == 0)
