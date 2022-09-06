@@ -40,9 +40,10 @@ static void *__uploadThread(void *arg)
     }
 
     gettimeofday(&tval_start, NULL);
-    printf("...starting tests\n");
+    printf("...starting %d tests\n", threadConfig->testCount);
     for (i = 0; i < threadConfig->testCount; i++)
     {
+        printf("...test no %d\n", i);
         __appendTimestamp(threadConfig->url, uploadUrl, sizeof(uploadUrl));
         /* FIXME: totalToBeTransfered should be readonly while the upload thread is running */
         totalTransfered = totalToBeTransfered;
@@ -66,7 +67,6 @@ static void *__uploadThread(void *arg)
             }
 
             totalTransfered -= size;
-            printf("...transferred: %d, left: %d\n", size, totalTransfered);
         }
         threadConfig->transferedBytes += totalToBeTransfered;
         /* Cleanup */
@@ -82,7 +82,7 @@ static void *__uploadThread(void *arg)
 void testUpload(const char *url)
 {
     size_t numOfThreads = speedTestConfig->uploadThreadConfig.threadsCount;
-    THREADARGS_T *param = (THREADARGS_T *) calloc(numOfThreads, sizeof(THREADARGS_T));
+    THREADARGS_T *para<m = (THREADARGS_T *) calloc(numOfThreads, sizeof(THREADARGS_T));
 
     int i;
     for (i = 0; i < numOfThreads; i++)
@@ -109,6 +109,7 @@ void testUpload(const char *url)
     printf("...wait for threads\n");
     for (i = 0; i < numOfThreads; i++)
     {
+        printf("...waiting for %d (tid: %d)\n", i, param[i].tid);
         pthread_join(param[i].tid, NULL);
         printf("...joined a thread\n");
         if (param[i].transferedBytes)
