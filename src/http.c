@@ -105,6 +105,10 @@ sock_t httpPut(char* pAddress, int pPort, char* pRequest, unsigned long contentS
     printf("[%d]...httpPut: cp5\n", tid);
 #ifdef OPENSSL
     sock_t sock = bioWrap(sockId, ssl, 1);
+    if (sockId == NULL) {
+        printf("[%d]...httpPut: ssl failed\n", tid);
+        return 0;
+    }
     BIO_write(sock, buffer, strlen(buffer));
     printf("[%d]...httpPut: cp6\n", tid);
     return sock;
