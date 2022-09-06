@@ -32,7 +32,7 @@ static void *__uploadThread(void *arg)
     sock_t sockId;
 
     /* Build the random buffer */
-    printf("...build the random buffer...\n");
+    printf("[%d]...build the random buffer...\n", threadConfig->tid);
     srand(time(NULL));
     for(i=0; i < BUFFER_SIZE; i++)
     {
@@ -40,23 +40,23 @@ static void *__uploadThread(void *arg)
     }
 
     gettimeofday(&tval_start, NULL);
-    printf("...starting %d tests\n", threadConfig->testCount);
+    printf("[%d]...starting %d tests\n", threadConfig->testCount);
     for (i = 0; i < threadConfig->testCount; i++)
     {
-        printf("...test no %d\n", i);
+        printf("[%d]...test no %d\n", threadConfig->tid, i);
         __appendTimestamp(threadConfig->url, uploadUrl, sizeof(uploadUrl));
-        printf("...cp1\n");
+        printf("[%d]...cp1\n", threadConfig->tid);
         /* FIXME: totalToBeTransfered should be readonly while the upload thread is running */
         totalTransfered = totalToBeTransfered;
-        printf("...cp2\n");
+        printf("[%d]...cp2\n", threadConfig->tid);
         sockId = httpPutRequestSocket(uploadUrl, totalToBeTransfered);
-        printf("...cp3\n");
+        printf("[%d]...cp3\n", threadConfig->tid);
         if(sockId == 0)
         {
             printf("Unable to open socket for Upload!");
             pthread_exit(NULL);
         }
-        printf("...cp4\n");
+        printf("[%d]...cp4\n", threadConfig->tid);
 
         while(totalTransfered != 0)
         {
@@ -72,12 +72,12 @@ static void *__uploadThread(void *arg)
 
             totalTransfered -= size;
         }
-        printf("...cp5\n");
+        printf("[%d]...cp5\n", threadConfig->tid);
         threadConfig->transferedBytes += totalToBeTransfered;
         /* Cleanup */
-        printf("...cleanup http\n");
+        printf("[%d]...cleanup http\n", threadConfig->tid);
         httpClose(sockId);
-        printf("...done cleanup http\n");
+        printf("[%d]...done cleanup http\n", threadConfig->tid);
     }
     threadConfig->elapsedSecs = getElapsedTime(tval_start);
 
