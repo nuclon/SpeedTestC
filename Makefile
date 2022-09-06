@@ -4,8 +4,8 @@
 OPENSSL_CFLAGS = -DOPENSSL -DURL_PROTOCOL='"https"'
 OPENSSL_LIBS = -lssl -lcrypto
 
-CFLAGS = -Os -Wall -std=c99 $(OPENSSL_CFLAGS) $(EXTRACFLAGS)
-LDFLAGS	=
+CFLAGS = -Os -Wall -std=c99 -g $(OPENSSL_CFLAGS) $(EXTRACFLAGS)
+LDFLAGS	= -g
 LIBS := -lm -lpthread $(OPENSSL_LIBS)
 
 ifdef TOMATO_BUILD
