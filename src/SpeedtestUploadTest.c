@@ -45,14 +45,18 @@ static void *__uploadThread(void *arg)
     {
         printf("...test no %d\n", i);
         __appendTimestamp(threadConfig->url, uploadUrl, sizeof(uploadUrl));
+        printf("...cp1\n");
         /* FIXME: totalToBeTransfered should be readonly while the upload thread is running */
         totalTransfered = totalToBeTransfered;
+        printf("...cp2\n");
         sockId = httpPutRequestSocket(uploadUrl, totalToBeTransfered);
+        printf("...cp3\n");
         if(sockId == 0)
         {
             printf("Unable to open socket for Upload!");
             pthread_exit(NULL);
         }
+        printf("...cp4\n");
 
         while(totalTransfered != 0)
         {
@@ -68,6 +72,7 @@ static void *__uploadThread(void *arg)
 
             totalTransfered -= size;
         }
+        printf("...cp5\n");
         threadConfig->transferedBytes += totalToBeTransfered;
         /* Cleanup */
         printf("...cleanup http\n");
